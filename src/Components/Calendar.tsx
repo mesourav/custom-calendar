@@ -18,33 +18,30 @@ const Calendar = (props: CalendarProps) => {
   const calendarDates = datesToShow(getFirstWeekDayOfMonth, totaldaysInMonth);
 
   const renderWeekDays = () => {
-    const weekDaysUi = weekDays.map((data, index) => {
-      return <th key={index}>{data}</th>;
+    return weekDays.map((data) => {
+      return <th key={data}>{data}</th>;
     });
-    return weekDaysUi;
+  };
+
+  const allDates = (data: Array<string | number>) => {
+    return data && data !== undefined
+      ? data.map((date, index) => {
+          return (
+            <td
+              className={todayDate === date ? classes.todaySelectedDate : ""}
+              key={`Dates${index}`}
+            >
+              {date}
+            </td>
+          );
+        })
+      : null;
   };
 
   const renderDates = () => {
-    var datesUi = calendarDates.map((data, index) => {
-      return (
-        <tr key={index}>
-          {data[`row${index}`] && data[`row${index}`] !== undefined
-            ? data[`row${index}`].map((dates, innerIndex) => {
-                return (
-                  <td
-                    className={todayDate === dates ? classes.todaySelectedDate : ""}
-                    key={innerIndex}
-                  >
-                    {dates}
-                  </td>
-                );
-              })
-            : null}
-        </tr>
-      );
+    return calendarDates.map((data, index) => {
+      return <tr key={index}>{allDates(data[`row${index}`])}</tr>;
     });
-
-    return datesUi;
   };
 
   return (
